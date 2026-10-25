@@ -1,0 +1,130 @@
+---
+layout: default
+title: Boudica Festival — A Tin Music and Arts Project
+---
+
+{% assign programme = site.data.programmes | where: "slug", "boudica-festival" | first %}
+
+<!-- Hero: full-bleed festival image + bold wordmark -->
+<section class="relative bg-black overflow-hidden">
+  <img src="/images/at-godiva.jpeg" alt="" aria-hidden="true"
+       class="absolute inset-0 w-full h-full object-cover object-center opacity-40" />
+  <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30"></div>
+  <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 py-28 sm:py-40">
+    <p class="text-[11px] tracking-[0.25em] uppercase text-boudica mb-5 font-bold">A Tin Music and Arts Project · Est. Coventry 2017</p>
+    <h1 class="text-6xl sm:text-8xl font-black tracking-tight leading-[0.9] mb-6 uppercase text-white">
+      Boudica<br><span class="text-boudica">Festival</span>
+    </h1>
+    <p class="text-xl text-zinc-200 max-w-2xl leading-relaxed mb-8">
+      {% if site.data.snippets.boudica_hero_intro %}{{ site.data.snippets.boudica_hero_intro.body }}{% elsif programme and programme.description %}{{ programme.description }}{% else %}Celebrating emerging women and non-binary musicians across all genres. Firmly on the frontline in the fight against inequality in the music industry. Est. Coventry 2017.{% endif %}
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="#programme" class="bg-boudica text-black text-sm font-black px-6 py-3 rounded hover:opacity-90 transition-opacity">See the line-up</a>
+      <a href="https://the-tin.gigkit.site/#support" class="border border-white/40 text-white text-sm font-bold px-6 py-3 rounded hover:bg-white hover:text-black transition-colors">Support Boudica</a>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="py-16 px-4 sm:px-6 bg-zinc-950">
+  <div class="max-w-screen-xl mx-auto max-w-2xl">
+    <p class="text-xs tracking-widest uppercase text-boudica mb-4">The festival</p>
+    <h2 class="text-3xl font-black tracking-tight mb-6">{% if site.data.snippets.boudica_about_heading %}{{ site.data.snippets.boudica_about_heading.body }}{% else %}Music without barriers{% endif %}</h2>
+    <p class="text-sm text-zinc-400 leading-relaxed mb-4">{% if site.data.snippets.boudica_about_p1 %}{{ site.data.snippets.boudica_about_p1.body }}{% else %}Boudica Festival was founded in Coventry in 2017 with a simple belief: that women and non-binary artists deserve equal space on stage. Seven years on, that mission hasn't changed.{% endif %}</p>
+    <p class="text-sm text-zinc-400 leading-relaxed mb-4">{% if site.data.snippets.boudica_about_p2 %}{{ site.data.snippets.boudica_about_p2.body }}{% else %}Each year Boudica brings together emerging and established artists from across the UK and beyond, across rock, folk, electronic, jazz, and everything in between.{% endif %}</p>
+    <p class="text-sm text-zinc-400 leading-relaxed">{% if site.data.snippets.boudica_about_p3 %}{{ site.data.snippets.boudica_about_p3.body }}{% else %}The festival is run by <a href="https://the-tin.gigkit.site" class="text-boudica hover:underline">The Tin</a> as part of our commitment to making Coventry's music scene more inclusive, representative, and just plain better.{% endif %}</p>
+  </div>
+</section>
+
+<!-- Artists / on stage -->
+<section class="bg-black">
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-zinc-900">
+    <figure class="relative group">
+      <img src="/images/ellis-frawley.jpeg" alt="Ellis Frawley" class="w-full aspect-square object-cover" loading="lazy">
+      <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-sm font-bold text-white">Ellis Frawley</figcaption>
+    </figure>
+    <figure class="relative group">
+      <img src="/images/yama-warashi.jpeg" alt="Yama Warashi" class="w-full aspect-square object-cover" loading="lazy">
+      <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-sm font-bold text-white">Yama Warashi</figcaption>
+    </figure>
+    <figure class="relative group hidden sm:block">
+      <img src="/images/at-godiva.jpeg" alt="Boudica at Godiva Festival" class="w-full aspect-square object-cover" loading="lazy">
+      <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-sm font-bold text-white">Boudica at Godiva</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Programme -->
+<section id="programme" class="py-16 px-4 sm:px-6 bg-black border-t border-zinc-900">
+  <div class="max-w-screen-xl mx-auto">
+    <p class="text-xs tracking-widest uppercase text-boudica mb-2">
+      {% if programme and programme.start_date %}{{ programme.start_date | date: "%Y" }} lineup{% else %}The lineup{% endif %}
+    </p>
+    <h2 class="text-3xl font-black tracking-tight mb-10">The programme</h2>
+
+    {% if programme %}
+      {% assign prog_events = programme.events %}
+      {% if prog_events.size > 0 %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800">
+        {% for event_ref in prog_events %}
+          {% assign event = site.data.upcoming_events | where: "slug", event_ref.slug | first %}
+          {% unless event %}{% assign event = site.data.previous_events | where: "slug", event_ref.slug | first %}{% endunless %}
+          <a href="{% if event and event.ticket_url %}{{ event.ticket_url }}{% elsif event %}https://the-tin.gigkit.site/events/{{ event.slug }}/{% else %}#{% endif %}"
+             {% if event and event.ticket_url %}target="_blank" rel="noopener"{% endif %}
+             class="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-6 flex flex-col gap-2">
+            <p class="text-xs text-boudica font-semibold">{{ event_ref.start_date | date: "%-d %B %Y" }}</p>
+            <h3 class="text-base font-bold leading-snug text-white group-hover:text-boudica transition-colors">{{ event_ref.name }}</h3>
+            {% if event and event.short_description %}<p class="text-xs text-zinc-500">{{ event.short_description }}</p>{% endif %}
+            {% if event %}
+            <p class="text-xs text-zinc-600 mt-auto">
+              {% if event.free_entry %}Free entry{% elsif event.ticket_url %}Tickets available{% endif %}
+            </p>
+            {% endif %}
+          </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-zinc-500 text-sm">Programme events coming soon.</p>
+      {% endif %}
+    {% else %}
+    <p class="text-zinc-500 text-sm">Programme information coming soon.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- News -->
+{% if programme and programme.news and programme.news.size > 0 %}
+<section id="news" class="py-16 px-4 sm:px-6 bg-zinc-950 border-t border-zinc-900">
+  <div class="max-w-screen-xl mx-auto">
+    <p class="text-xs tracking-widest uppercase text-boudica mb-2">Latest</p>
+    <h2 class="text-3xl font-black tracking-tight mb-10">News</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for article in programme.news %}
+      <a href="{{ article.url }}" class="group block bg-zinc-900 rounded-lg overflow-hidden hover:bg-zinc-800 transition-colors">
+        {% if article.cover_image %}<img src="{{ article.cover_image.card }}" alt="{{ article.title }}" class="w-full aspect-[3/2] object-cover" loading="lazy">{% endif %}
+        <div class="p-5">
+          <h3 class="text-base font-bold text-white group-hover:text-boudica transition-colors mb-2">{{ article.title }}</h3>
+          {% if article.pull_quote %}<p class="text-sm text-zinc-400 leading-relaxed mb-3">{{ article.pull_quote }}</p>{% endif %}
+          <span class="text-xs font-bold text-boudica group-hover:underline">Find out more →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Support -->
+<section class="py-16 px-4 sm:px-6 bg-zinc-900 border-t border-zinc-800">
+  <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-8 items-center">
+    <div class="flex-1">
+      <p class="text-xs tracking-widest uppercase text-tin-yellow mb-2">This is The Tin's work</p>
+      <h2 class="text-2xl font-black tracking-tight mb-3">{% if site.data.snippets.boudica_support_heading %}{{ site.data.snippets.boudica_support_heading.body }}{% else %}Boudica is only possible because of your support{% endif %}</h2>
+      <p class="text-sm text-zinc-400 leading-relaxed max-w-xl">{% if site.data.snippets.boudica_support_body %}{{ site.data.snippets.boudica_support_body.body }}{% else %}As a registered charity, The Tin relies on donations, grants, and fundraising to run festivals like Boudica. If you believe in equal representation in music, please consider supporting us.{% endif %}</p>
+    </div>
+    <div class="flex flex-col gap-3 flex-shrink-0">
+      <a href="https://the-tin.gigkit.site/#support" class="bg-tin-red text-white text-sm font-black px-8 py-3 rounded hover:bg-[#c0474d] transition-colors text-center">Donate to The Tin</a>
+      <a href="https://the-tin.gigkit.site/#newsletter" class="border border-zinc-600 text-zinc-300 text-sm font-semibold px-8 py-3 rounded hover:border-white hover:text-white transition-colors text-center">Stay in the Loop</a>
+    </div>
+  </div>
+</section>
