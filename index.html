@@ -36,8 +36,29 @@ title: Boudica Festival — A Tin Music and Arts Project
   </div>
 </section>
 
-<!-- Artists / on stage -->
-<section class="bg-black">
+<!-- Line-up — the site roster (#964), announced acts flagged (status: upcoming). -->
+<section id="lineup" class="bg-black border-t border-zinc-900">
+  {% if site.data.settings.display.show_artists and site.data.artists.size > 0 %}
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6 py-16">
+    <p class="text-xs tracking-[0.25em] uppercase text-boudica font-bold mb-4">On stage</p>
+    <h2 class="text-3xl sm:text-4xl font-black tracking-tight uppercase mb-10">{{ site.data.settings.display.artists_label | default: "Line-up" }}</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px bg-zinc-900">
+      {% for artist in site.data.artists %}
+      <a href="/artists/{{ artist.slug }}/" class="group relative aspect-square overflow-hidden bg-zinc-950">
+        {% if artist.photo %}
+        <img src="{{ artist.photo.square | default: artist.photo.medium }}" alt="{{ artist.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+        {% else %}
+        <div class="w-full h-full flex items-center justify-center text-zinc-700"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg></div>
+        {% endif %}
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3">
+          {% if artist.status == "upcoming" %}<span class="block text-[9px] font-black uppercase tracking-widest text-boudica mb-0.5">Announced</span>{% endif %}
+          <p class="text-sm font-bold text-white group-hover:text-boudica transition-colors leading-tight">{{ artist.name }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
   <div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-zinc-900">
     <figure class="relative group">
       <img src="/images/ellis-frawley.jpeg" alt="Ellis Frawley" class="w-full aspect-square object-cover" loading="lazy">
@@ -52,6 +73,7 @@ title: Boudica Festival — A Tin Music and Arts Project
       <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-sm font-bold text-white">Boudica at Godiva</figcaption>
     </figure>
   </div>
+  {% endif %}
 </section>
 
 <!-- Programme -->
